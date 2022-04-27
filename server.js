@@ -39,7 +39,7 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "/src")));
 app.use(express.static(path.join(__dirname, "/public")));
-app.use(express.static(path.join(__dirname, "factura/")));
+app.use(express.static(path.join(__dirname, "/facturacion")));
 app.use(express.static(path.join(__dirname, "js/")));
 
 app.get("/", function (request, response) {
@@ -133,7 +133,6 @@ const emailBienvenidad = (email) => {
 };
 
 const email = () => {
-  console.log("entrando..");
   try {
     transporter.sendMail({
       from: '"Tiendita Cervecera" <ld780009@gmail.com>',
@@ -143,7 +142,7 @@ const email = () => {
       attachments: [
         {
           filename: "factura.pdf",
-          path: "factura/factura.pdf",
+          path: "facturacion/factura.pdf",
           contentType: "application/pdf",
         },
       ],
@@ -152,6 +151,7 @@ const email = () => {
     console.log(e);
   }
 };
+
 let pedidos = {};
 
 const getPedido = () => {
@@ -212,7 +212,6 @@ const logout = () => {
 };
 
 const crearPdf = (pedido) => {
-  console.log("entrando..");
   var pdf = require("html-pdf");
   let fecha = pedido.date;
   fecha.setDate(fecha.getDate() + 3);
@@ -223,6 +222,7 @@ const crearPdf = (pedido) => {
     <h1 style='text-align:center'>Tiendita cervecera</h1>
     <img style=' display: block;margin: 0px auto;' src='https://media-cdn.tripadvisor.com/media/photo-s/19/7d/16/46/our-craft-beers-pamela.jpg'  >
     <h2 style='text-align:center' >Factura digital</h2>
+    <p style='text-align:center'>Productos comprados ${pedido.detalle}</p>
     <p style='text-align:center'>No. de productos comprados: <span>${
       pedido.cantidad
     }</span> </p>
@@ -242,16 +242,20 @@ const crearPdf = (pedido) => {
     <h1 style='text-align:center'>Gracias por tu compra</h1>
     <h2 style='text-align:center'>DISFRUTALO!!</h2>
     `;
-  console.log("todo bien")
 
-  pdf.create(contenido).toFile("factura/factura.pdf", function (err, res) {
-    if (err) {
-      console.log(err);
-    } else {
-      email(pedido.user);
-    }
-  });
+  pdf
+    .create(contenido)
+    .toFile("./facturacion/factura.pdf", { orientation: 'landscape', type: 'pdf', timeout: '100000' }, 
+            function (err, res) {
+      if (err) {
+        console.log(err);
+      } else {
+        email(pedido.user);
+      }
+    });
 };
+
+    
 
 const pagar = (carrito, metodo) => {
   let pedido = {};
