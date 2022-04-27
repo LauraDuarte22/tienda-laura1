@@ -306,5 +306,6 @@ const checkOut = () => {
     },
     body: JSON.stringify(carrito),
   });
-  swal("Confirmación pago","Pago exitoso,la facturá se enviará a tu correo","success");
+    swal("Confirmación pago","Pago exitoso,la facturá se enviará a tu correo","success");
+
 };

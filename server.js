@@ -145,7 +145,7 @@ const email = () => {
       attachments: [
         {
           filename: "factura.pdf",
-          path: "facturacion/factura.pdf",
+          path: "factura.pdf",
           contentType: "application/pdf",
         },
       ],
@@ -224,7 +224,6 @@ const crearPdf = (pedido) => {
     <h1 style='text-align:center'>Tiendita cervecera</h1>
     <img style=' display: block;margin: 0px auto;' src='https://media-cdn.tripadvisor.com/media/photo-s/19/7d/16/46/our-craft-beers-pamela.jpg'  >
     <h2 style='text-align:center' >Factura digital</h2>
-    <p style='text-align:center'>Productos comprados ${pedido.detalle}</p>
     <p style='text-align:center'>No. de productos comprados: <span>${
       pedido.cantidad
     }</span> </p>
@@ -247,7 +246,7 @@ const crearPdf = (pedido) => {
 
   pdf
     .create(contenido)
-    .toFile("./facturacion/factura.pdf", function (err, res) {
+    .toFile("factura.pdf", function (err, res) {
       if (err) {
         console.log(err);
       } else {
@@ -263,11 +262,13 @@ const pagar = (carrito, metodo) => {
   pedido.user = username;
   pedido.precio = 0;
   pedido.cantidad = 0;
-  pedido.detalle = "";
-  Object.values(carrito).forEach((producto) => {
+  pedido.detalle = {};
+  Object.values(carrito).forEach((producto,i) => {
     pedido.precio = producto.precio * producto.cantidad + pedido.precio;
     pedido.cantidad = pedido.cantidad + producto.cantidad;
-    pedido.detalle += producto.nombre + " ";
+    pedido.detalle[i] = {
+      "producto":producto.nombre,
+       "cantidad":producto.cantidad            }
   });
   pedido.iva = pedido.precio + pedido.precio * 0.19;
   if (pedido.iva >= 100000) {

@@ -60,7 +60,7 @@ const chart = (data) => {
   var ctx = gr.getContext('2d');
   let date ={}
   Object.values(data).forEach((producto,i) => {
-    console.log(producto)
+        Object.values(producto.detalle)
         date[i]=producto.metodo;
   });
    console.log(date)
@@ -68,7 +68,7 @@ const chart = (data) => {
   var myChart = new Chart(ctx, {
     type: "bar",
     data: {
-     
+  
       labels:date,
       datasets: [
         {
