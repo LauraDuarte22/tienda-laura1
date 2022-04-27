@@ -129,17 +129,17 @@ const emailBienvenidad = (email) => {
   }
 };
 
-const email = (data,email) => {
+const email = (pedido,email) => {
   let fecha = pedido.date;
   fecha.setDate(fecha.getDate() + 3);
   let y = fecha.getFullYear();
   let m = fecha.getMonth() + 1;
   let d = fecha.getDate();
+  let detalle = Object.values(pedu)
   var contenido = `
     <h1 style='text-align:center'>Tiendita cervecera</h1>
     <img style=' display: block;margin: 0px auto;' src='https://media-cdn.tripadvisor.com/media/photo-s/19/7d/16/46/our-craft-beers-pamela.jpg'  >
     <h2 style='text-align:center' >Factura digital</h2>
-    <p style='text-align:center'>Productos comprados ${pedido.detalle}</p>
     <p style='text-align:center'>No. de productos comprados: <span>${
       pedido.cantidad
     }</span> </p>
@@ -159,11 +159,11 @@ const email = (data,email) => {
     <h1 style='text-align:center'>Gracias por tu compra</h1>
     <h2 style='text-align:center'>DISFRUTALO!!</h2>
     `;
-
+console.log(email)
   try {
     transporter.sendMail({
       from: '"Tiendita Cervecera" <ld780009@gmail.com>',
-      to: ,
+      to: email,
       subject: "Factura de pago en Tiendita Cervecera",
       text: "Hola, Gracias por tu compra, te enviamos tu factura!",
      "html":contenido
@@ -261,5 +261,5 @@ const pagar = (carrito, metodo) => {
   pedido.metodo = metodo;
 
   db.collection("pedidos").add(pedido);
-  email(pedido,correo);
+  email(pedido, pedido.user);
 };

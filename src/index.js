@@ -282,7 +282,6 @@ const pagar = () => {
         const template = document.getElementById("template-pse").content;
         const clone = template.cloneNode(true);
         fragmento.appendChild(clone);
-
         detalle.appendChild(fragmento);
       }
       if (selMetodo == "TC") {
