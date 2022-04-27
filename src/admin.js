@@ -56,12 +56,15 @@ const table = (data) => {
 };
 
 const chart = (data) => {
+  console.log("aca entra");
   const gr = document.getElementById("myChart");
   var ctx = gr.getContext('2d');
   let date ={}
   Object.values(data).forEach((producto,i) => {
-        Object.values(producto.detalle)
-        date[i]=producto.metodo;
+        console.log(producto);
+        let productos = data.filter(obj => producto.producto);
+        console.log(productos);
+
   });
    console.log(date)
   

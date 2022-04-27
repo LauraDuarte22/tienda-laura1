@@ -1,7 +1,6 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
-const pdf = require("html-pdf");
 const fs = require("fs");
 require("firebase/firestore");
 const firebase = require("firebase");
@@ -248,7 +247,7 @@ const crearPdf = (pedido) => {
       if (err) {
         console.log(err);
       } else {
-        console.log("todo está b")
+        console.log("todo está bien")
         email(pedido.user);
       }
     });
