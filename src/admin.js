@@ -16,7 +16,7 @@ const ingreso = () => {
           swal("Error", "Este usuario no esa administrador", "error");
         } else {
           swal("", "Registro exitoso!", "success");
-        chart(data)
+        table(data)
         }
       })
       .catch(function (e) {
@@ -44,7 +44,6 @@ const table = (data) => {
     const td7 = tr3.insertCell();
 
     td1.appendChild(document.createTextNode(producto.cantidad));
-    td2.appendChild(document.createTextNode(producto.detalle));
     td3.appendChild(document.createTextNode(producto.envio));
     td4.appendChild(document.createTextNode(producto.iva));
     td5.appendChild(document.createTextNode(producto.metodo));
@@ -62,51 +61,12 @@ const chart = (data) => {
   let pt ={}
   Object.values(data).forEach((producto) => {
         let detalle=producto.detalle;
-    
+    Object.values(detalle).forEach((dt,i) => {
+      if(dt.prod)
+      pt[i]=dt.producto
   });
+  });
+     console.log(pt);
+ 
 }
-   console.log(producto)
   
-  var myChart = new Chart(ctx, {
-    type: "bar",
-    data: {
-  
-      labels:date,
-      datasets: [
-        {
-          label: "Ventas",
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-            "rgba(255, 99, 132, 0.2)",
-            "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 206, 86, 0.2)",
-            "rgba(75, 192, 192, 0.2)",
-            "rgba(153, 102, 255, 0.2)",
-            "rgba(255, 159, 64, 0.2)",
-          ],
-          borderColor: [
-            "rgba(255,99,132,1)",
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-            "rgba(255, 159, 64, 1)",
-          ],
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-            },
-          },
-        ],
-      },
-    },
-  });
-};
-
