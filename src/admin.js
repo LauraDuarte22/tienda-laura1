@@ -12,10 +12,10 @@ const ingreso = () => {
       .json()
       .then(function (data) {
         if (data.hasOwnProperty("code") || data.hasOwnProperty("noadmin")) {
-          swal("Este usuario no esa administrador","error");
+          swal("Error","Este usuario no esa administrador","error");
           
         } else {
-          swal("Registro exitoso!","success");
+          swal("","Registro exitoso!","success");
           table(data);
         }
       })

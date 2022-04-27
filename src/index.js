@@ -88,6 +88,7 @@ const addFooter = () => {
   const boton = document.getElementById("vaciar-carrito");
   boton.addEventListener("click", () => {
     carrito = {};
+     Swal("Carrito","Carrito vacio","info");
     addCarrito();
   });
 };
@@ -150,7 +151,6 @@ btn.addEventListener("click", () => {
   if (texto.length == 0) addProductos();
   Object.values(p).forEach((producto) => {
     let nombre = producto.Categoria;
-    console.log(nombre);
     if (nombre.indexOf(texto) !== -1) {
       if (cont == 0) productos.innerHTML = "";
       if (nombre === texto) {
@@ -169,7 +169,7 @@ btn.addEventListener("click", () => {
     }
   });
   if (cont == 0 && texto.length != 0) {
-    alert("No tenemos esos productos");
+     Swal("Error","No tenemos esos productos","error");
   }
 });
 
@@ -178,7 +178,7 @@ function registrar() {
   var password = document.getElementById("password-registro").value;
   var regex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
   if (!regex.test(email)) {
-    alert("correo invalido");
+    Swal("Error","correo invalido","error");
   } else {
     fetch("/registro", {
       method: "POST",
@@ -192,9 +192,10 @@ function registrar() {
         .then(function (data) {
           if (data.hasOwnProperty("code")) {
             console.log(data);
+             Swal("Error",data.message,"error");
             alert(data.message);
           } else {
-            alert("Registro exitoso, por favor inicia sesión");
+            Swal("Registro exitoso","Inicia sesión","success");
           }
         })
         .catch(function (e) {
@@ -288,9 +289,10 @@ const pagar = () => {
         detalle.appendChild(fragmento);
       }
     } else {
-      alert("Seleccione un método de pago!");
+      swal("Error","Seleccione un método de pago","error");
+
     }
-  } else alert("Inicia sesión para realizar el pago");
+  } else swal("Error","Inicia sesión para realizar el pago","error");
 };
 const checkOut = () => {
   console.log(selMetodo);
@@ -301,5 +303,5 @@ const checkOut = () => {
     },
     body: JSON.stringify(carrito),
   });
-  alert("Pago exitoso,la facturá se enviará a tu correo");
+  swal("Confirmación pago","Pago exitoso,la facturá se enviará a tu correo","success");
 };
