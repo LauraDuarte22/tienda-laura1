@@ -1,3 +1,4 @@
+
 const ingreso = () => {
   var email = document.getElementById("correo-admin").value;
   var password = document.getElementById("password-admin").value;
@@ -13,10 +14,9 @@ const ingreso = () => {
       .then(function (data) {
         if (data.hasOwnProperty("code") || data.hasOwnProperty("noadmin")) {
           swal("Error", "Este usuario no esa administrador", "error");
-          data = "";
         } else {
           swal("", "Registro exitoso!", "success");
-        chart()
+        chart(data)
         }
       })
       .catch(function (e) {
@@ -58,10 +58,18 @@ const table = (data) => {
 const chart = (data) => {
   const gr = document.getElementById("myChart");
   var ctx = gr.getContext('2d');
+  let date ={}
+  Object.values(data).forEach((producto,i) => {
+    console.log(producto)
+        date[i]=producto.metodo;
+  });
+   console.log(date)
+  
   var myChart = new Chart(ctx, {
     type: "bar",
     data: {
-      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+     
+      labels:date,
       datasets: [
         {
           label: "Ventas",
