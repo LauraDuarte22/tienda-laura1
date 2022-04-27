@@ -59,14 +59,13 @@ const chart = (data) => {
   console.log("aca entra");
   const gr = document.getElementById("myChart");
   var ctx = gr.getContext('2d');
-  let date ={}
-  Object.values(data).forEach((producto,i) => {
-        console.log(producto);
-        let productos = data.filter(obj => producto.producto);
-        console.log(productos);
-
+  let pt ={}
+  Object.values(data).forEach((producto) => {
+        let detalle=producto.detalle;
+    
   });
-   console.log(date)
+}
+   console.log(producto)
   
   var myChart = new Chart(ctx, {
     type: "bar",
