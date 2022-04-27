@@ -93,9 +93,6 @@ app.get("/logout", function (req, res) {
   res.json({ msj: "Sesión cerrada" });
 });
 
-app.post("/email", function (req, res) {
-  crearPdf(req.body);
-});
 
 app.post("/loginAdmin", function (req, res) {
   const email = req.body.email;
@@ -132,20 +129,45 @@ const emailBienvenidad = (email) => {
   }
 };
 
-const email = () => {
+const email = (data,email) => {
+  let fecha = pedido.date;
+  fecha.setDate(fecha.getDate() + 3);
+  let y = fecha.getFullYear();
+  let m = fecha.getMonth() + 1;
+  let d = fecha.getDate();
+  var contenido = `
+    <h1 style='text-align:center'>Tiendita cervecera</h1>
+    <img style=' display: block;margin: 0px auto;' src='https://media-cdn.tripadvisor.com/media/photo-s/19/7d/16/46/our-craft-beers-pamela.jpg'  >
+    <h2 style='text-align:center' >Factura digital</h2>
+    <p style='text-align:center'>Productos comprados ${pedido.detalle}</p>
+    <p style='text-align:center'>No. de productos comprados: <span>${
+      pedido.cantidad
+    }</span> </p>
+    <p style='text-align:center'>Subtotal comprado: $<span> ${
+      pedido.precio
+    }</span></p>
+    <p style='text-align:center'>Envío : <span>${pedido.envio}</span></span></p>
+    <p style='text-align:center'>Total comprado+iva: $<span> ${
+      pedido.iva
+    }</span></p>
+    <p style='text-align:center'>Método de pago : <span>${
+      pedido.metodo
+    }</span></span></p>
+    <p style='text-align:center'>Su pedido llegará: <span> ${
+      d + "-" + m + "-" + y
+    }</span></p>
+    <h1 style='text-align:center'>Gracias por tu compra</h1>
+    <h2 style='text-align:center'>DISFRUTALO!!</h2>
+    `;
+
   try {
     transporter.sendMail({
       from: '"Tiendita Cervecera" <ld780009@gmail.com>',
-      to: "lduarteperez2@gmail.com",
+      to: ,
       subject: "Factura de pago en Tiendita Cervecera",
       text: "Hola, Gracias por tu compra, te enviamos tu factura!",
-      attachments: [
-        {
-          filename: "factura.pdf",
-          path: "facturacion/factura.pdf",
-          contentType: "application/pdf",
-        },
-      ],
+     "html":contenido
+    
     });
   } catch (e) {
     console.log(e);
@@ -211,51 +233,7 @@ const logout = () => {
   activoUser = 0;
 };
 
-const crearPdf = (pedido) => {
-  var pdf = require("html-pdf");
-  let fecha = pedido.date;
-  fecha.setDate(fecha.getDate() + 3);
-  let y = fecha.getFullYear();
-  let m = fecha.getMonth() + 1;
-  let d = fecha.getDate();
-  var contenido = `
-    <h1 style='text-align:center'>Tiendita cervecera</h1>
-    <img style=' display: block;margin: 0px auto;' src='https://media-cdn.tripadvisor.com/media/photo-s/19/7d/16/46/our-craft-beers-pamela.jpg'  >
-    <h2 style='text-align:center' >Factura digital</h2>
-    <p style='text-align:center'>Productos comprados ${pedido.detalle}</p>
-    <p style='text-align:center'>No. de productos comprados: <span>${
-      pedido.cantidad
-    }</span> </p>
-    <p style='text-align:center'>Subtotal comprado: $<span> ${
-      pedido.precio
-    }</span></p>
-    <p style='text-align:center'>Envío : <span>${pedido.envio}</span></span></p>
-    <p style='text-align:center'>Total comprado+iva: $<span> ${
-      pedido.iva
-    }</span></p>
-    <p style='text-align:center'>Método de pago : <span>${
-      pedido.metodo
-    }</span></span></p>
-    <p style='text-align:center'>Su pedido llegará: <span> ${
-      d + "-" + m + "-" + y
-    }</span></p>
-    <h1 style='text-align:center'>Gracias por tu compra</h1>
-    <h2 style='text-align:center'>DISFRUTALO!!</h2>
-    `;
-
-  pdf
-    .create(contenido)
-    .toFile("./facturacion/factura.pdf", { orientation: 'landscape', type: 'pdf', timeout: '100000' }, 
-            function (err, res) {
-      if (err) {
-        console.log(err);
-      } else {
-        email(pedido.user);
-      }
-    });
-};
-
-    
+   
 
 const pagar = (carrito, metodo) => {
   let pedido = {};
@@ -283,5 +261,5 @@ const pagar = (carrito, metodo) => {
   pedido.metodo = metodo;
 
   db.collection("pedidos").add(pedido);
-  crearPdf(pedido);
+  email(pedido,correo);
 };
