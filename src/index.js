@@ -297,6 +297,7 @@ const pagar = () => {
     }
   } else swal("Error","Inicia sesión para realizar el pago","error");
 };
+
 const checkOut = () => {
   console.log(selMetodo);
   fetch(`/pagar/${selMetodo}`, {
@@ -305,7 +306,10 @@ const checkOut = () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(carrito),
-  });
-    swal("Confirmación pago","Pago exitoso,la facturá se enviará a tu correo","success");
+  }).then(function (response) {
+      swal("Confirmación pago","Pago exitoso,la facturá se enviará a tu correo","success");
+  }) .catch(function (e) {
+        swal("error","Pago exitoso,la facturá se enviará a tu correo","success");
+    });
 
 };

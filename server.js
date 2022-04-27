@@ -244,12 +244,11 @@ const crearPdf = (pedido) => {
     <h2 style='text-align:center'>DISFRUTALO!!</h2>
     `;
 
-  pdf
-    .create(contenido)
-    .toFile("factura.pdf", function (err, res) {
+  pdf.create(contenido).toFile("factura.pdf", function (err, res) {
       if (err) {
         console.log(err);
       } else {
+        console.log("todo está b")
         email(pedido.user);
       }
     });
