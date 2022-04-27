@@ -15,6 +15,7 @@ dependencies:
   path: 0.12.7
   point-of-view: 5.2.0
   sweetalert: 2.1.2
+  sweetalert2: 11.4.9
 packages:
   /@fastify/ajv-compiler/1.1.0:
     dependencies:
@@ -2785,6 +2786,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-iWx7X4anRBNDa/a+AdTmvAzQtkN1+s4j/JJRWlHpYE8Qimkohs8/XnFcWeYHH2lMA8LRCa5tj2d244If3S/hzA==
+  /sweetalert2/11.4.9:
+    dev: false
+    resolution:
+      integrity: sha512-DAQGODShPfz9cwxDIUuXZuavlq1kOR2uypXa4DxG9YxlIbcCSlbm7BEnXwP/GK9+wI+whvj5iePEByq3RbIoNg==
   /teeny-request/7.2.0:
     dependencies:
       http-proxy-agent: 5.0.0
@@ -3089,3 +3094,4 @@ specifiers:
   path: ^0.12.7
   point-of-view: ^5.2.0
   sweetalert: ^2.1.2
+  sweetalert2: ^11.4.8

@@ -168,7 +168,7 @@ btn.addEventListener("click", () => {
     }
   });
   if (cont == 0 && texto.length != 0) {
-     Swal("Error","No tenemos esos productos","error");
+     swal("Error","No tenemos esos productos","error");
   }
 });
 
@@ -177,7 +177,7 @@ function registrar() {
   var password = document.getElementById("password-registro").value;
   var regex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
   if (!regex.test(email)) {
-    Swal("Error","correo invalido","error");
+    swal("Error","correo invalido","error");
   } else {
     fetch("/registro", {
       method: "POST",
@@ -190,11 +190,10 @@ function registrar() {
         .json()
         .then(function (data) {
           if (data.hasOwnProperty("code")) {
-            console.log(data);
-             Swal("Error",data.message,"error");
-            alert(data.message);
+             swal("Error",data.message,"error");
+
           } else {
-            Swal("Registro exitoso","Inicia sesión","success");
+            swal("Registro exitoso","Inicia sesión","success");
           }
         })
         .catch(function (e) {
@@ -236,11 +235,14 @@ function ingreso() {
 const activo = () => {
   var contenido = document.getElementById("usuario-activo");
   var registro = document.getElementById("registro");
+  var admin = document.getElementById("admin");
+    admin.innerHtml="";
   registro.innerHTML = "";
   contenido.innerHTML = `
   <button id="logout"class="btn btn-info my-2 my-sm-0" onclick='logout()'>logout</button>
   `;
   activo.innerHTML = "Activo";
+
 };
 
 const logout = () => {
@@ -264,6 +266,7 @@ const logout = () => {
     });
 };
 let selMetodo = "";
+
 const pagar = () => {
   if (userActive == 1) {
     const metodo = document.querySelector('input[name="metodo"]:checked');
