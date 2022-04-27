@@ -15,12 +15,14 @@
     "express": "^4.17.3",
     "nodemailer": "^6.7.3",
     "fs": "^0.0.2",
-    "cors": "^2.8.5",
+    "cors": "^sweetalert22.8.5",
     "html-pdf": "^3.0.1",
-    "firebase": "^9.6.11",
+    "firebase": "^8.10.1",
     "@firebase/firestore": "^3.4.8",
     "path": "^0.12.7",
-    "firebase-admin": "^10.1.0"
+    "firebase-admin": "^10.1.0",
+    "firebase-functions": "^3.20.0",
+    "sweetalert2": "^11.4.8"
   },
   "engines": {
     "node": "12.x"
