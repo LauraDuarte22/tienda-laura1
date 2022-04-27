@@ -191,9 +191,9 @@ function registrar() {
         .then(function (data) {
           if (data.hasOwnProperty("code")) {
              swal("Error",data.message,"error");
-
           } else {
             swal("Registro exitoso","Inicia sesión","success");
+            activo()
           }
         })
         .catch(function (e) {
@@ -218,10 +218,9 @@ function ingreso() {
       .then(function (data) {
         console.log(data);
         if (data.hasOwnProperty("code")) {
-          console.log(data);
-          alert(data.message);
+            swal("Error",data.message,"error");
         } else {
-          alert("Inicio de sesión exitoso!");
+         swal("Ingreso: ","Ingreso exitoso","success");
           userActive = 1;
           activo();
         }
@@ -236,7 +235,7 @@ const activo = () => {
   var contenido = document.getElementById("usuario-activo");
   var registro = document.getElementById("registro");
   var admin = document.getElementById("admin");
-    admin.innerHtml="";
+  admin.textContent =" ";
   registro.innerHTML = "";
   contenido.innerHTML = `
   <button id="logout"class="btn btn-info my-2 my-sm-0" onclick='logout()'>logout</button>
@@ -246,6 +245,8 @@ const activo = () => {
 };
 
 const logout = () => {
+   var admin = document.getElementById("admin");
+   admin.textContent ="perfil administrador";
   fetch("/productos")
     .then(function (response) {
       response.json().then(function () {

@@ -25,6 +25,7 @@ const ingreso = () => {
   });
 };
 
+
 const table = (data) => {
   var tablita = document.getElementById("tablita");
   var tabla = document.createElement("table");
@@ -60,10 +61,10 @@ const chart = () => {
   var myChart = new Chart(ctx, {
     type: "bar",
     data: {
-      labels: [],
+      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
       datasets: [
         {
-          label: "Pedidos,
+          label: "# of Votes",
           data: [12, 19, 3, 5, 2, 3],
           backgroundColor: [
             "rgba(255, 99, 132, 0.2)",
