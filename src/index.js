@@ -88,7 +88,6 @@ const addFooter = () => {
   const boton = document.getElementById("vaciar-carrito");
   boton.addEventListener("click", () => {
     carrito = {};
-     Swal("Carrito","Carrito vacio","info");
     addCarrito();
   });
 };
