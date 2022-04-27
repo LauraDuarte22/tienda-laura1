@@ -37,23 +37,21 @@ const port = process.env.PORT || "3000";
 app.use(cors());
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, '/src')));
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, "/src")));
+app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, "factura/")));
+app.use(express.static(path.join(__dirname, "js/")));
 
-
-
-app.get('/', function(request, response){
-  getProductos()
-  response.render('index.html',{
-    productos
+app.get("/", function (request, response) {
+  getProductos();
+  response.render("index.html", {
+    productos,
   });
 });
 
-app.get('/admin.html', function(request, response){
-  response.sendFile(__dirname + '/admin.html');
+app.get("/admin.html", function (request, response) {
+  response.sendFile(__dirname + "/admin.html");
 });
-app.use(express.static(path.join(__dirname, 'js/')));
-
 
 const getProductos = () => {
   db.collection("productos")
@@ -135,6 +133,7 @@ const emailBienvenidad = (email) => {
 };
 
 const email = () => {
+  console.log("entrando..");
   try {
     transporter.sendMail({
       from: '"Tiendita Cervecera" <ld780009@gmail.com>',
@@ -144,7 +143,7 @@ const email = () => {
       attachments: [
         {
           filename: "factura.pdf",
-          path: "factura.pdf",
+          path: "factura/factura.pdf",
           contentType: "application/pdf",
         },
       ],
@@ -173,7 +172,7 @@ const observador = () => {
     if (user) {
       var uid = user.uid;
       username = user.email;
-    
+
       activoUser = 1;
     } else {
       username = "";
@@ -213,6 +212,7 @@ const logout = () => {
 };
 
 const crearPdf = (pedido) => {
+  console.log("entrando..");
   var pdf = require("html-pdf");
   let fecha = pedido.date;
   fecha.setDate(fecha.getDate() + 3);
@@ -242,15 +242,15 @@ const crearPdf = (pedido) => {
     <h1 style='text-align:center'>Gracias por tu compra</h1>
     <h2 style='text-align:center'>DISFRUTALO!!</h2>
     `;
+  console.log("todo bien")
 
-  pdf.create(contenido).toFile("factura.pdf", function (err, res) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("todo está bien")
-        email(pedido.user);
-      }
-    });
+  pdf.create(contenido).toFile("factura/factura.pdf", function (err, res) {
+    if (err) {
+      console.log(err);
+    } else {
+      email(pedido.user);
+    }
+  });
 };
 
 const pagar = (carrito, metodo) => {
@@ -261,12 +261,13 @@ const pagar = (carrito, metodo) => {
   pedido.precio = 0;
   pedido.cantidad = 0;
   pedido.detalle = {};
-  Object.values(carrito).forEach((producto,i) => {
+  Object.values(carrito).forEach((producto, i) => {
     pedido.precio = producto.precio * producto.cantidad + pedido.precio;
     pedido.cantidad = pedido.cantidad + producto.cantidad;
     pedido.detalle[i] = {
-      "producto":producto.nombre,
-       "cantidad":producto.cantidad            }
+      producto: producto.nombre,
+      cantidad: producto.cantidad,
+    };
   });
   pedido.iva = pedido.precio + pedido.precio * 0.19;
   if (pedido.iva >= 100000) {
