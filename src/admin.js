@@ -16,7 +16,7 @@ const ingreso = () => {
           data = "";
         } else {
           swal("", "Registro exitoso!", "success");
-          addData(chart(), "1", data);
+        chart()
         }
       })
       .catch(function (e) {
@@ -55,7 +55,7 @@ const table = (data) => {
   });
 };
 
-const chart = () => {
+const chart = (data) => {
   const gr = document.getElementById("myChart");
   var ctx = gr.getContext('2d');
   var myChart = new Chart(ctx, {
@@ -64,7 +64,7 @@ const chart = () => {
       labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
       datasets: [
         {
-          label: "# of Votes",
+          label: "Ventas",
           data: [12, 19, 3, 5, 2, 3],
           backgroundColor: [
             "rgba(255, 99, 132, 0.2)",
@@ -100,10 +100,3 @@ const chart = () => {
   });
 };
 
-function addData(chart, label, data) {
-  chart.data.labels.push(label);
-  chart.data.datasets.forEach((dataset) => {
-    dataset.data.push(data);
-  });
-  chart.update();
-}
